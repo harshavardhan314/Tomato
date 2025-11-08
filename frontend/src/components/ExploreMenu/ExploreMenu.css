@@ -1,0 +1,99 @@
+.ExploreMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.ExploreMenu h2 {
+    font-size: 28px;
+    color: #262626;
+    font-weight: 500;
+}
+
+.ExploreMenu p {
+    font-size: 18px;
+    color: #555555;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* Flex container for items */
+.ExploreMenu-list {
+    display: flex;
+    flex-wrap: wrap; /* allows wrapping on small screens */
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/*  Each menu item same size */
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;       /* fixed width */
+}
+
+.menu-item img {
+    width: 100px;       /* same image size */
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.menu-item img:hover {
+    transform: scale(1.05); /* little hover effect */
+}
+
+.menu-item p {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #555555;
+    font-weight: 400;
+    text-align: center;
+}
+
+/* Active item */
+.ExploreMenu-list .active {
+    border: 3px solid tomato;
+    border-radius: 50%;
+    padding: 3px;
+}
+
+/* Tablet responsiveness */
+@media screen and (max-width: 768px) {
+    .menu-item {
+        width: 100px;
+    }
+    .menu-item img {
+        width: 80px;
+        height: 80px;
+    }
+    .menu-item p {
+        font-size: 14px;
+    }
+}
+
+/*  Mobile responsiveness */
+@media screen and (max-width: 480px) {
+    .menu-item {
+        width: 80px;
+    }
+    .menu-item img {
+        width: 60px;
+        height: 60px;
+    }
+    .menu-item p {
+        font-size: 12px;
+    }
+}
+/* 🔹 ExploreMenu list responsiveness */
+.ExploreMenu-list {
+  flex-wrap: wrap; /* allow items to wrap on mobile */
+  justify-content: flex-start; /* align left, not center */
+  gap: 15px;
+}

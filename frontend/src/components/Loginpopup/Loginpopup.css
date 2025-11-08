@@ -1,0 +1,119 @@
+.login-popup {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000090;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.login-popup form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 25px 30px;
+    border-radius: 15px;
+    background-color: white;
+    width: 380px;
+    max-width: 90%;
+    animation: fadeIn 0.5s;
+}
+
+.popup-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-content .curr-state {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.popup-content img {
+    width: 16px;
+    cursor: pointer;
+}
+
+.sign-up-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sign-up-content input {
+    padding: 10px;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+}
+
+.sign-up-content input::placeholder {
+    color: #a0a0a0;
+}
+
+.create-acc-btn button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: #ff523b;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.create-acc-btn button:hover {
+    background-color: #e54733;
+}
+
+.check-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    color: #5a5a5a;
+}
+
+.check-box input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.login-popup form p {
+    font-size: 14px;
+    color: #5a5a5a;
+}
+
+.login-popup form p span {
+    color: #3b82f6;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s;
+}
+
+.login-popup form p span:hover {
+    border-bottom: 2px solid #3b82f6;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

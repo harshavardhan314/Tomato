@@ -1,0 +1,69 @@
+/* Dark transparent background overlay */
+.login-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* White popup box */
+.login-popup-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 350px;
+  max-width: 90%;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button (X) */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Input fields */
+.login-popup input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.login-popup input:focus {
+  border-color: #ff8000;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  background:tomato;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 400;
+
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #b36200;
+}
