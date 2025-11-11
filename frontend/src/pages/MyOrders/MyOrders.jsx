@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
-import "./Myorders.css";
+import "./MyOrders.css";
 import { Toaster } from "react-hot-toast";
 const MyOrders = () => {
   const { url } = useContext(StoreContext);

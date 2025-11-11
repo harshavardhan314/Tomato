@@ -9,7 +9,7 @@ import Login from './components/Login/Login'
 import { Toaster } from 'react-hot-toast'
 const App = () => {
 
-  const url="http://localhost:5000"
+  const url="https://tomato-ib9m.onrender.com"
   return (
     <div>
       
