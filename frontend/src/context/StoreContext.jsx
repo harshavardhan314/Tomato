@@ -10,7 +10,7 @@ const StoreContextProvider = (props) => {
   const [signin, setSignin] = useState(false);
   const [user, setUser] = useState(null);
 
-  const url = "https://tomato-ib9m.onrender.com/";
+  const url = "https://tomato-ib9m.onrender.com";
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
