@@ -23,10 +23,14 @@ const PORT = process.env.PORT || 5000;
 // Parse JSON
 app.use(express.json());
 
-// ✅ CORS setup (fixed version)
+// ✅ CORS setup (supports multiple origins)
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend origin
+    origin: [
+      "http://localhost:5173",
+      "https://tomato-frontend-qs21.onrender.com",
+      "http://localhost:5174"
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true, // allow cookies/auth headers
   })
