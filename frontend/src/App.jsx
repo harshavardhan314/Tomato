@@ -7,7 +7,7 @@ import PlaceOrder from "./pages/PlaceOrder/PlaceOrder";
 import Footer from "./components/Footer/Footer";
 import Loginpopup from "./components/Loginpopup/Loginpopup";
 import Verify from "./pages/Verify/Verify";
-import MyOrders from "./pages/Myorders/Myorders";
+import MyOrders from "./pages/MyOrders/MyOrders";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/ScrollToTop";
 const App = () => {
