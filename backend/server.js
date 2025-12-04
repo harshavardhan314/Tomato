@@ -12,34 +12,24 @@ const path = require("path");
 const userRoute = require("./routes/userRoute");
 const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
-const foodRoute = require("./routes/foodRoute");
+const foodRoute = require("./routes/foodRoute"); // Add this if you have a food route
 const adminRoutes = require("./routes/adminRoute");
-
 // Initialize app
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- Middleware ---
-// Parse JSON
+// --- Middlewares ---
 app.use(express.json());
 
-// ✅ CORS setup (supports multiple origins)
+// CORS setup
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://tomato-frontend-qs21.onrender.com",
-      "http://localhost:5174"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true, // allow cookies/auth headers
+    origin: "http://localhost:5173", // Frontend (Vite/React)
+    credentials: true,
   })
 );
 
-// ✅ Allow preflight (OPTIONS) for all routes
-app.options(/.*/, cors());
-
-// ✅ Static file serving (for uploaded images)
+// Static file serving (for images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // --- Database Connection ---
@@ -52,11 +42,11 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // --- Routes ---
-app.get("/", (req, res) => res.send("🍔 API is running... hii iam harsha"));
+app.get("/", (req, res) => res.send("🍔 API is running..."));
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
-app.use("/api/food", foodRoute);
+app.use("/api/food", foodRoute); 
 app.use("/api/admin", adminRoutes);
 
 // --- 404 Fallback ---

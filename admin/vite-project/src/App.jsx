@@ -6,13 +6,11 @@ import Add from './pages/Additems/Additems'
 import Listitems from './pages/Listitems/Listitems'
 import Orders from './pages/Orders/Orders'
 import Login from './components/Login/Login'
-import { Toaster } from 'react-hot-toast'
 const App = () => {
 
-  const url="https://tomato-ib9m.onrender.com"
+  const url="http://localhost:5000"
   return (
     <div>
-      
       <Navbar></Navbar>
       <hr></hr>
       <div className="app-content">
