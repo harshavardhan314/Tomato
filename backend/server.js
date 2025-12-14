@@ -22,12 +22,28 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 // CORS setup
+// Make allowed origins configurable via env var (comma-separated). Falls back to localhost Vite URL.
+const allowedOriginsEnv =
+  process.env.ALLOWED_ORIGINS || "http://localhost:5173";
+const allowedOrigins = allowedOriginsEnv
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend (Vite/React)
+    origin: function (origin, callback) {
+      // allow requests with no origin (like curl, postman, server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+      console.warn(`Blocked CORS request from origin: ${origin}`);
+      return callback(new Error("CORS policy: Origin not allowed"));
+    },
     credentials: true,
   })
 );
+
+console.log("Allowed CORS origins:", allowedOrigins);
 
 // Static file serving (for images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -46,7 +62,7 @@ app.get("/", (req, res) => res.send("🍔 API is running..."));
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
-app.use("/api/food", foodRoute); 
+app.use("/api/food", foodRoute);
 app.use("/api/admin", adminRoutes);
 
 // --- 404 Fallback ---

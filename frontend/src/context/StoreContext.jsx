@@ -10,7 +10,8 @@ const StoreContextProvider = (props) => {
   const [signin, setSignin] = useState(false);
   const [user, setUser] = useState(null);
 
-  const url = "http://localhost:5000";
+  // Use Vite environment variable in production; fall back to localhost for local dev
+  const url = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -40,7 +41,6 @@ const StoreContextProvider = (props) => {
       try {
         await axios.post(`${url}/api/cart/remove`, { itemId });
       } catch (err) {
-        
         console.error("Error removing from cart:", err);
       }
     }
