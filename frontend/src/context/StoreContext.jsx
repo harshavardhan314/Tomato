@@ -11,8 +11,7 @@ const StoreContextProvider = (props) => {
   const [user, setUser] = useState(null);
 
   // Use Vite environment variable in production; fall back to localhost for local dev
-  const url =import.meta.env.VITE_API_URL || "https://tomato-ib9m.onrender.com";
-
+  const url ="https://tomato-backend-new.onrender.com";
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({

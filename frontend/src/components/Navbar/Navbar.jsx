@@ -1,34 +1,69 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import toast from "react-hot-toast";
+import axios from "axios";
+
 const Navbar = ({ setLogin }) => {
   const navigate = useNavigate();
   const { getTotalCartItems, signin, setSignin, setToken } =
     useContext(StoreContext);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  // Smooth scroll for homepage sections
+  /* 🔍 SEARCH STATES */
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const debounceRef = useRef(null);
+
+  // Smooth scroll
   const scrollToSection = (targetId) => {
-    navigate("/"); // navigate to home first
+    navigate("/");
     setIsMenuOpen(false);
     setTimeout(() => {
       const el = document.getElementById(targetId);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
 
-  // Handle user logout
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken("");
     setSignin(false);
-     toast.success("Logout Successful");
+    toast.success("Logout Successful");
     navigate("/");
   };
+
+  /* 🔍 DEBOUNCED SEARCH EFFECT */
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(
+          `http://localhost:5000/api/search?q=${query}`
+        );
+        setResults(res.data);
+      } catch (err) {
+        console.error("Search error", err);
+      } finally {
+        setLoading(false);
+      }
+    }, 400);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [query]);
 
   return (
     <div className="navbar">
@@ -37,7 +72,7 @@ const Navbar = ({ setLogin }) => {
         <img src={assets.logo} alt="logo" className="logo" />
       </Link>
 
-      {/* Navigation Links */}
+      {/* Navigation */}
       <ul className={`nav-items ${isMenuOpen ? "show-menu" : ""}`}>
         <li onClick={() => scrollToSection("top")}>Home</li>
         <li onClick={() => scrollToSection("menu")}>Menu</li>
@@ -45,14 +80,56 @@ const Navbar = ({ setLogin }) => {
         <li onClick={() => scrollToSection("mobile-app")}>Mobile App</li>
       </ul>
 
-      {/* Right-side section */}
+      {/* Right Section */}
       <div className="nav-right">
-        {/* Search bar */}
+        {/* 🔍 SEARCH BAR */}
         <div className="main-search">
-          <input type="text" placeholder="Search for restaurant..." />
+          <input
+            type="text"
+            placeholder="Search for restaurant or dish..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+
+          {/* Loading */}
+          {loading && (
+            <div className="search-dropdown">
+              <p className="search-loading">Searching...</p>
+            </div>
+          )}
+
+          {/* Results */}
+          {!loading && results.length > 0 && (
+            <div className="search-dropdown">
+              {results.map((item) => (
+                <div
+                  key={item._id}
+                  className="search-item"
+                  onClick={() => {
+                    setQuery("");
+                    setResults([]);
+                    navigate(`/food/${item._id}`);
+                  }}
+                >
+                  <img src={item.image} alt={item.name} />
+                  <div>
+                    <p className="search-name">{item.name}</p>
+                    <span className="search-price">₹{item.price}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* No Results */}
+          {!loading && query && results.length === 0 && (
+            <div className="search-dropdown">
+              <p className="no-results">No results found</p>
+            </div>
+          )}
         </div>
 
-        {/* Cart icon */}
+        {/* Cart */}
         <div className="cart-icon">
           <Link to="/cart">
             <img src={assets.basket_icon} alt="cart" className="nav-icon" />
@@ -62,17 +139,15 @@ const Navbar = ({ setLogin }) => {
           )}
         </div>
 
-       
+        {/* Auth */}
         {signin ? (
           <div className="profile-container">
             <img
               src={assets.profile_icon}
               alt="user"
-              className="nav-icon user-icon"
-              onClick={() => setShowProfileMenu((prev) => !prev)}
+              className="nav-icon"
+              onClick={() => setShowProfileMenu((p) => !p)}
             />
-
-            
             {showProfileMenu && (
               <div className="profile-dropdown">
                 <p
@@ -93,41 +168,12 @@ const Navbar = ({ setLogin }) => {
           </button>
         )}
 
-        {/* Mobile menu toggle */}
+        {/* Mobile Menu */}
         <div
           className="mobile-menu-toggle"
           onClick={() => setIsMenuOpen((p) => !p)}
         >
-          {isMenuOpen ? (
-            // Close icon
-            <svg
-              viewBox="0 0 24 24"
-              width="30"
-              height="30"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          ) : (
-            // Hamburger menu icon
-            <svg
-              viewBox="0 0 24 24"
-              width="30"
-              height="30"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          )}
+          {isMenuOpen ? "✕" : "☰"}
         </div>
       </div>
     </div>

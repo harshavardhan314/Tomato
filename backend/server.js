@@ -14,6 +14,7 @@ const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
 const foodRoute = require("./routes/foodRoute"); // Add this if you have a food route
 const adminRoutes = require("./routes/adminRoute");
+const searchRoute = require("./routes/searchRoute");
 // Initialize app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,8 +24,7 @@ app.use(express.json());
 
 // CORS setup
 // Make allowed origins configurable via env var (comma-separated). Falls back to localhost Vite URL.
-const allowedOriginsEnv =
-  process.env.ALLOWED_ORIGINS || "http://localhost:5173";
+const allowedOriginsEnv =process.env.ALLOWED_ORIGINS || "http://localhost:5173";
 const allowedOrigins = allowedOriginsEnv
   .split(",")
   .map((s) => s.trim())
@@ -64,6 +64,7 @@ app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/food", foodRoute);
 app.use("/api/admin", adminRoutes);
+app.use("/api/search", searchRoute);
 
 // --- 404 Fallback ---
 app.use((req, res) => {
