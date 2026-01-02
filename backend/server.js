@@ -1,29 +1,30 @@
 // Load environment variables
 const dotenv = require("dotenv");
-dotenv.config(); // Must come before other imports using env vars
+dotenv.config(); 
 
-// Import dependencies
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 
-// Import routes
+
 const userRoute = require("./routes/userRoute");
 const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
-const foodRoute = require("./routes/foodRoute"); // Add this if you have a food route
+const foodRoute = require("./routes/foodRoute"); 
 const adminRoutes = require("./routes/adminRoute");
 const searchRoute = require("./routes/searchRoute");
-// Initialize app
+
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // --- Middlewares ---
 app.use(express.json());
 
-// CORS setup
-// Make allowed origins configurable via env var (comma-separated). Falls back to localhost Vite URL.
+
+
 const allowedOriginsEnv =process.env.ALLOWED_ORIGINS || "http://localhost:5173";
 const allowedOrigins = allowedOriginsEnv
   .split(",")
@@ -33,7 +34,7 @@ const allowedOrigins = allowedOriginsEnv
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like curl, postman, server-to-server)
+      
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
       console.warn(`Blocked CORS request from origin: ${origin}`);
@@ -48,7 +49,6 @@ console.log("Allowed CORS origins:", allowedOrigins);
 // Static file serving (for images)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// --- Database Connection ---
 mongoose
   .connect(process.env.MONGOURL, {
     useNewUrlParser: true,
@@ -57,7 +57,7 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// --- Routes ---
+
 app.get("/", (req, res) => res.send("🍔 API is running..."));
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
@@ -66,7 +66,7 @@ app.use("/api/food", foodRoute);
 app.use("/api/admin", adminRoutes);
 app.use("/api/search", searchRoute);
 
-// --- 404 Fallback ---
+
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
