@@ -20,10 +20,8 @@ const searchRoute = require("./routes/searchRoute");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- Middlewares ---
+
 app.use(express.json());
-
-
 
 const allowedOriginsEnv =process.env.ALLOWED_ORIGINS || "http://localhost:5173";
 const allowedOrigins = allowedOriginsEnv
