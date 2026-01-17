@@ -4,6 +4,7 @@ import { assets } from "../../assets/assets";
 import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
 import toast from "react-hot-toast";
+
 const Loginpopup = ({ setLogin }) => {
   const [currstate, setCurrstate] = useState("Signup");
   const { url, setToken, setSignin, setUser } = useContext(StoreContext);
@@ -27,32 +28,43 @@ const Loginpopup = ({ setLogin }) => {
           ? `${url}/api/user/signup`
           : `${url}/api/user/login`;
 
-      const res = await axios.post(endpoint, data);
+      const payload =
+        currstate === "Signup"
+          ? data
+          : {
+              email: data.email,
+              password: data.password,
+            };
+
+      const res = await axios.post(endpoint, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (res.data.success) {
         if (currstate === "Signup") {
-         toast.success("signup Successful");
+          toast.success("Signup successful");
           setCurrstate("Login");
         } else {
-          toast.success("Login Successful");
+          toast.success("Login successful");
 
-          
           const { token, user } = res.data;
-          if (token && user) {
-            setToken(token);
-            setSignin(true);
-            setUser(user);
-            localStorage.setItem("token", token);
-            localStorage.setItem("user", JSON.stringify(user));
-          }
 
-          setLogin(false); // Close popup
+          setToken(token);
+          setSignin(true);
+          setUser(user);
+
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
+
+          setLogin(false);
         }
       } else {
-        toast.error(res.data.message || "Invalid Credentials");
+        toast.error(res.data.message || "Invalid credentials");
       }
     } catch (err) {
-     
+      console.error("Login error:", err);
       toast.error("Something went wrong. Try again!");
     }
   };
@@ -90,6 +102,7 @@ const Loginpopup = ({ setLogin }) => {
             placeholder="Your email"
             required
           />
+
           <input
             value={data.password}
             onChange={handleChange}
