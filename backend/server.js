@@ -59,7 +59,6 @@ app.use("/api/cart", cartRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/food", foodRoute);
 app.use("/api/admin", adminRoutes);
-app.use("/api/search", searchRoute);
 
 /* -------------------- 404 HANDLER -------------------- */
 app.use((req, res) => {

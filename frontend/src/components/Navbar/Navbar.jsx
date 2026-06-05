@@ -4,7 +4,7 @@ import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { food_list } from "../../assets/assets.js";
 
 const Navbar = ({ setLogin }) => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Navbar = ({ setLogin }) => {
   /* 🔍 SEARCH STATES */
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+
   const debounceRef = useRef(null);
 
   // Smooth scroll
@@ -39,30 +39,22 @@ const Navbar = ({ setLogin }) => {
     navigate("/");
   };
 
-  /* 🔍 DEBOUNCED SEARCH EFFECT */
+  /* 🔥 SEARCH LOGIC */
   useEffect(() => {
-    if (!query.trim()) {
-      setResults([]);
-      return;
-    }
-
     clearTimeout(debounceRef.current);
 
-    debounceRef.current = setTimeout(async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(
-          `http://localhost:5000/api/search?q=${query}`
-        );
-        setResults(res.data);
-      } catch (err) {
-        console.error("Search error", err);
-      } finally {
-        setLoading(false);
+    debounceRef.current = setTimeout(() => {
+      if (query.trim() === "") {
+        setResults([]);
+        return;
       }
-    }, 400);
 
-    return () => clearTimeout(debounceRef.current);
+      const filtered = food_list.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      );
+
+      setResults(filtered);
+    }, 300);
   }, [query]);
 
   return (
@@ -82,24 +74,18 @@ const Navbar = ({ setLogin }) => {
 
       {/* Right Section */}
       <div className="nav-right">
+
         {/* 🔍 SEARCH BAR */}
         <div className="main-search">
           <input
             type="text"
-            placeholder="Search for restaurant or dish..."
+            placeholder="Search for dish..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
 
-          {/* Loading */}
-          {loading && (
-            <div className="search-dropdown">
-              <p className="search-loading">Searching...</p>
-            </div>
-          )}
-
-          {/* Results */}
-          {!loading && results.length > 0 && (
+          {/* Results Dropdown */}
+          {query && results.length > 0 && (
             <div className="search-dropdown">
               {results.map((item) => (
                 <div
@@ -122,7 +108,7 @@ const Navbar = ({ setLogin }) => {
           )}
 
           {/* No Results */}
-          {!loading && query && results.length === 0 && (
+          {query && results.length === 0 && (
             <div className="search-dropdown">
               <p className="no-results">No results found</p>
             </div>

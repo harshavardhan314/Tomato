@@ -10,6 +10,10 @@ const MyOrders = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
+
+      console.log("hii iam called....")
+
+      console.log("Fetching orders from:", `${url}/api/order/userorders`);
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(`${url}/api/order/userorders`, {

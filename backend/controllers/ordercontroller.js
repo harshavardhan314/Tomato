@@ -86,7 +86,7 @@ const verifyOrder = async (req, res) => {
 
 const userOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find({ userId: req.user.id }); // ✅ Use req.user.id
+    const orders = await orderModel.find({ userId: req.user.id }); 
     res.json({ success: true, data: orders });
   } catch (error) {
     console.error("Error fetching orders:", error);

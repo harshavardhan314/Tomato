@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     cartData: { type: Object, default: {} },
   },
   { minimize: false } 
-// okavela idhi pettaka pothe empty obj ni remove chesthundi empty object ni save cheyadaniki allow chestundi 
+
 );
 
 const userModel = mongoose.models.User || mongoose.model("User", userSchema);
