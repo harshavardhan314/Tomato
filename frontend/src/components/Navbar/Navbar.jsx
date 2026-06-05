@@ -39,7 +39,7 @@ const Navbar = ({ setLogin }) => {
     navigate("/");
   };
 
-  /* 🔥 SEARCH LOGIC */
+  // search bar logic ..without debounce it will run on every key stroke make ui laggy so after using debounce it will only search once after key stroke is stopped for 300ms... make ui fast ..
   useEffect(() => {
     clearTimeout(debounceRef.current);
 
