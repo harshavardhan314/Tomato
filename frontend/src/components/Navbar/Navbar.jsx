@@ -18,6 +18,8 @@ const Navbar = ({ setLogin }) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
+ 
+
   const debounceRef = useRef(null);
 
   // Smooth scroll
@@ -114,6 +116,8 @@ const Navbar = ({ setLogin }) => {
             </div>
           )}
         </div>
+
+          
 
         {/* Cart */}
         <div className="cart-icon">
