@@ -13,7 +13,7 @@ const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
 const foodRoute = require("./routes/foodRoute");
 const adminRoutes = require("./routes/adminRoute");
-const searchRoute = require("./routes/searchRoute");
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
