@@ -67,13 +67,17 @@ Tomato simplifies online food ordering through a fast, modern single-page applic
 
 ## 📷 Sample Images
 
-### Home Page (Hero Section)
-![Home Page](images/home_hero.png)
+### Home Page (Hero Banner)
+
+![Home Hero](images/home_hero.png)
 
 ---
 
 ### Explore Menu & Popular Dishes
-![Explore Menu](images/explore_menu.png)
+
+![Home Menu](images/home_menu.png)
+
+---
 
 ## 🚀 Installation
 
