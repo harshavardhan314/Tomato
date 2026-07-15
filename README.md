@@ -63,7 +63,7 @@ Tomato provides a fast, secure, and responsive food ordering experience with rea
 
 ![Home Hero](images/home_hero.png)
 
----
+
 
 ### Explore Menu & Popular Dishes
 
