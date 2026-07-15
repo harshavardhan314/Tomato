@@ -15,6 +15,5 @@ const userSchema = new mongoose.Schema(
 const userModel = mongoose.models.User || mongoose.model("User", userSchema);
 
 
-userModel.collection.dropIndex("name_1").catch(() => {});
 
 module.exports = userModel;

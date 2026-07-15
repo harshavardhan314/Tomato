@@ -12,6 +12,8 @@ const createToken = (id) => {
 // ================= LOGIN =================
 const loginUser = async (req, res) => {
   try {
+
+    
     let { email, password } = req.body || {};
 
     if (!email || !password) {
@@ -21,8 +23,11 @@ const loginUser = async (req, res) => {
     }
 
     email = email.toLowerCase().trim();
+    
 
+    
     const user = await userModel.findOne({ email });
+   
     if (!user) {
       return res
         .status(401)
@@ -46,13 +51,16 @@ const loginUser = async (req, res) => {
         message: "Password not secured. Please re-register.",
       });
     }
-
+    
     const isMatch = await bcrypt.compare(password, user.password);
+    
     if (!isMatch) {
       return res
         .status(401)
         .json({ success: false, message: "Invalid email or password" });
     }
+    
+
 
     const token = createToken(user._id);
 

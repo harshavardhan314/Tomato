@@ -13,7 +13,7 @@ const cartRoute = require("./routes/cartRoute");
 const orderRoute = require("./routes/orderRoute");
 const foodRoute = require("./routes/foodRoute");
 const adminRoutes = require("./routes/adminRoute");
-
+const uploadRoute = require("./routes/uploadRoute");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -52,7 +52,7 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 /* -------------------- ROUTES -------------------- */
-app.get("/", (req, res) => res.send("🍔 API is running..."));
+app.get("/health", (req, res) => res.send("🍔 API is running..."));
 
 app.use("/api/user", userRoute);
 app.use("/api/cart", cartRoute);
@@ -60,12 +60,28 @@ app.use("/api/order", orderRoute);
 app.use("/api/food", foodRoute);
 app.use("/api/admin", adminRoutes);
 
+
+app.use("/api/upload", uploadRoute);
+
+const redisClient = require("./config/redis");
+
+(async () => {
+  await redisClient.connect();
+  console.log("✅ Redis Connected");
+})();
+
+
+module.exports = redisClient;
 /* -------------------- 404 HANDLER -------------------- */
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
 
+
+
 /* -------------------- START SERVER -------------------- */
-app.listen(PORT, () =>
+const server=app.listen(PORT, () =>
   console.log(`🚀 Server running on port ${PORT}`)
 );
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;

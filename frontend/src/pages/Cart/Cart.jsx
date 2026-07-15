@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Cart = ({setCartpage}) => {
   const navigate=useNavigate();
-   const { removeFromCart, addToCart, cartItems ,food_list, getTotalCartAmount} = useContext(StoreContext);
+   const { removeFromCart, addToCart, cartItems ,food_list, getTotalCartAmount,foodList} = useContext(StoreContext);
    
    
    const deliveryFee = 2; 
@@ -32,7 +32,7 @@ const Cart = ({setCartpage}) => {
         <br></br>
         <hr/>
         {
-          food_list.map((item,idx)=>{
+          foodList.map((item,idx)=>{
             if(cartItems[item._id]>0)
             {
               return(

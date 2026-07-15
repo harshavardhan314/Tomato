@@ -1,5 +1,4 @@
 import React, { useState, createContext, useEffect } from "react";
-import { food_list } from "../assets/assets";
 import axios from "axios";
 
 export const StoreContext = createContext();
@@ -9,10 +8,28 @@ const StoreContextProvider = (props) => {
   const [token, setToken] = useState("");
   const [signin, setSignin] = useState(false);
   const [user, setUser] = useState(null);
+  const [foodList, setFoodList] = useState([]);
 
-  // Use Vite environment variable in production; fall back to localhost for local dev
-  const url ="https://tomato-backend-new.onrender.com";
+  const url = "http://localhost:5000";
 
+  // ---------------- FETCH FOOD FROM DB ----------------
+  const fetchFoodList = async () => {
+    try {
+      const res = await axios.get(`${url}/api/food/list`);
+      console.log(res);
+      if (res.data.success) {
+        setFoodList(res.data.data|| []);
+      }
+    } catch (err) {
+      console.error("Error fetching food list:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchFoodList();
+  }, []);
+
+  // ---------------- ADD TO CART ----------------
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
       ...prev,
@@ -28,7 +45,7 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  // ✅ Remove from cart
+  // ---------------- REMOVE FROM CART ----------------
   const removeFromCart = async (itemId) => {
     setCartItems((prev) => {
       const updated = { ...prev };
@@ -46,7 +63,7 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  // ✅ Restore user + token after refresh
+  // ---------------- RESTORE LOGIN ----------------
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
@@ -55,12 +72,13 @@ const StoreContextProvider = (props) => {
       setToken(savedToken);
       setSignin(true);
     }
+
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
   }, []);
 
-  // ✅ Automatically attach token to axios
+  // ---------------- AUTO AUTH HEADER ----------------
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -69,46 +87,57 @@ const StoreContextProvider = (props) => {
     }
   }, [token]);
 
-  // ✅ Fetch cart from backend
+  // ---------------- FETCH CART ----------------
   useEffect(() => {
     const fetchCart = async () => {
-      if (token) {
-        try {
-          const res = await axios.get(`${url}/api/cart/get`);
-          if (res.data.success) {
-            setCartItems(res.data.cartData || {});
-          }
-        } catch (err) {
-          console.error("Error fetching cart:", err);
+      if (!token) return;
+
+      try {
+        const res = await axios.get(`${url}/api/cart/get`);
+        if (res.data.success) {
+          setCartItems(res.data.cartData || {});
         }
+      } catch (err) {
+        console.error("Error fetching cart:", err);
       }
     };
+
     fetchCart();
   }, [token]);
 
-  // 🧮 Total amount
+  // ---------------- TOTAL AMOUNT ----------------
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        const itemInfo = food_list.find((product) => product._id === item);
-        if (itemInfo) totalAmount += itemInfo.price * cartItems[item];
+
+    for (const itemId in cartItems) {
+      const qty = cartItems[itemId];
+
+      if (qty > 0) {
+        const food = foodList.find((item) => item._id === itemId);
+
+        if (food) {
+          totalAmount += food.price * qty;
+        }
       }
     }
+
     return totalAmount;
   };
 
-  // 🧾 Total items
+  // ---------------- TOTAL ITEMS ----------------
   const getTotalCartItems = () => {
-    let totalItem = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) totalItem += cartItems[item];
+    let total = 0;
+
+    for (const itemId in cartItems) {
+      total += cartItems[itemId];
     }
-    return totalItem;
+
+    return total;
   };
 
+  // ---------------- CONTEXT VALUE ----------------
   const contextValue = {
-    food_list,
+    foodList,
     cartItems,
     addToCart,
     removeFromCart,

@@ -11,6 +11,7 @@
     "check:imports": "node scripts/check-imports.js"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "axios": "^1.12.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

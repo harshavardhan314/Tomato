@@ -1,42 +1,33 @@
-import React, { useContext, useState } from 'react'
-import './Fooddisplay.css'
-import { assets, food_list  } from '../../assets/assets'
-import Fooditem from '../Fooditem/Fooditem'
-const Fooddisplay = ({category}) => {
+import React, { useContext } from "react";
+import "./Fooddisplay.css";
+import Fooditem from "../Fooditem/Fooditem";
+import { StoreContext } from "../../context/StoreContext";
 
-
+const Fooddisplay = ({ category }) => {
+  const { foodList } = useContext(StoreContext); 
+  console.log("Food list in Fooddisplay:", foodList);
 
   return (
     <div className="food-display-container">
-        <div className="food-display-header">
-            <h2 className="food-display-title">Popular Dishes</h2>
-        </div>
-        <div className="Food-list-items">
-            {
-                food_list.map((item,id)=>{
+      <div className="food-display-header">
+        <h2 className="food-display-title">Popular Dishes</h2>
+      </div>
 
-                  if(category=='All' ||category===item.category)
-                  {
-                      return(
-                      <Fooditem  
-                       key={item._id}
-                        id={item._id}
-                        name={item.name}
-                        image={item.image}
-                        price={item.price}
-                        description={item.description}
-                      />
-                    )
-
-                  }
-                  
-
-                })
-            }
-        </div>
-      
+      <div className="Food-list-items">
+        {foodList.map((item) => {
+          if (category === "All" || category === item.category) {
+            return (
+              <Fooditem
+                key={item._id}
+                food={item}
+              />
+            );
+          }
+          return null;
+        })}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Fooddisplay
+export default Fooddisplay;

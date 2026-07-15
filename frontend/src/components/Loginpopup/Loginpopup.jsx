@@ -36,11 +36,13 @@ const Loginpopup = ({ setLogin }) => {
               password: data.password,
             };
 
+
       const res = await axios.post(endpoint, payload, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+
 
       if (res.data.success) {
         if (currstate === "Signup") {
@@ -64,8 +66,9 @@ const Loginpopup = ({ setLogin }) => {
         toast.error(res.data.message || "Invalid credentials");
       }
     } catch (err) {
+      
       console.error("Login error:", err);
-      toast.error("Something went wrong. Try again!");
+      toast.error("Invalid credentials ,enter correct email and password");
     }
   };
 

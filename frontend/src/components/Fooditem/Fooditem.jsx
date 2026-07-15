@@ -1,47 +1,53 @@
-import React, { useContext } from 'react';
-import './Fooditem.css';
-import { assets } from '../../assets/assets';
-import { StoreContext } from '../../context/StoreContext';
+import React, { useContext } from "react";
+import "./Fooditem.css";
+import { assets } from "../../assets/assets";
+import { StoreContext } from "../../context/StoreContext";
 import toast from "react-hot-toast";
 
-const Fooditem = ({ id, name, image, price, description }) => {
-  const { removeFromCart, addToCart, cartItems } = useContext(StoreContext);
+const Fooditem = ({ food }) => {
+  const { addToCart, removeFromCart, cartItems } = useContext(StoreContext);
+
+  const itemId = food?._id;
 
   return (
     <div className="food-item">
       <div className="food-img-container">
-        <img src={image} alt={name} className="food-img" />
+        <img
+          src={food?.image}
+          alt={food?.name}
+          className="food-img"
+        />
 
-        {!cartItems[id] ? (
+        {!cartItems[itemId] ? (
           <img
-            className="add-icon"
             src={assets.add_icon_white}
+            className="add-icon"
+            alt="add"
             onClick={() => {
-              addToCart(id);
-              toast.success("item added successfully")
+              addToCart(itemId);
+              toast.success("Item added successfully");
             }}
-            alt="add to cart"
           />
         ) : (
           <div className="increase-count">
             <img
               src={assets.remove_icon_red}
-              onClick={() =>{ removeFromCart(id)
-                toast.error("Item removed ")
-              }
-    
-              }
-          
               alt="remove"
+              onClick={() => {
+                removeFromCart(itemId);
+                toast.error("Item removed");
+              }}
             />
-            <p>{cartItems[id]}</p>
+
+            <p>{cartItems[itemId]}</p>
+
             <img
               src={assets.add_icon_green}
+              alt="add"
               onClick={() => {
-                addToCart(id);
+                addToCart(itemId);
                 toast.success("Item added successfully");
               }}
-              alt="add"
             />
           </div>
         )}
@@ -49,20 +55,21 @@ const Fooditem = ({ id, name, image, price, description }) => {
 
       <div className="food-details">
         <div className="food-item-name-rating">
-          <p className="food-item-name">{name}</p>
+          <p className="food-item-name">{food?.name}</p>
+
           <img
             src={assets.rating_starts}
             alt="rating"
             className="food-item-rating"
           />
         </div>
-        <p className="food-item-description">{description}</p>
-        <p className="food-item-price">₹ {price}</p>
+
+        <p className="food-item-description">
+          {food?.description}
+        </p>
+
+        <p className="food-item-price">₹ {food?.price}</p>
       </div>
-
-      
-
-     
     </div>
   );
 };
