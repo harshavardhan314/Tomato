@@ -1,70 +1,62 @@
-# Tomato - Food Delivery Application
+# 🍅 Tomato - Food Delivery Application
 
-## 📌 Problem Statement
-Food delivery services are essential in the modern world, yet many systems face issues regarding speed, real-time data caching, secure transactions, and menu management.
-- **Why this project was needed:** Users need a lightweight, responsive, and blazing-fast interface to order food from local menus without overhead.
-- **Challenges users face:** Slow page reloads, insecure checkout processes, complex authentication steps, and delayed status updates on orders.
-- **Existing limitations:** Monolithic platforms often suffer from slow queries when loading extensive food menus, and restaurant admins struggle with rigid menu management tools.
+A full-stack food delivery platform built with the MERN stack, featuring secure authentication, Stripe payments, Redis caching, and an admin dashboard for seamless food ordering and management.
+
+---
+
+## 📌 Problem
+
+Existing food delivery platforms often suffer from slow performance, complex user flows, and inefficient menu and order management, leading to a poor user experience.
 
 ---
 
 ## 💡 Solution
-Tomato simplifies online food ordering through a fast, modern single-page application built on a robust MERN architecture enhanced by Redis caching.
-- **Overall workflow:**
-  1. Users sign up/login securely via custom JWT or Google OAuth.
-  2. Browse food items filtered by category (Salad, Rolls, Deserts, Sandwich, Cake, Pure Veg, Pasta, Noodles).
-  3. Manage items dynamically in a persistent shopping cart.
-  4. Complete secure payments via Stripe integration.
-  5. Check order status history, while admins manage menu listings and order fulfillment from a dedicated admin dashboard.
-- **Key features:** Caching for high-frequency data, instant cart synchronization, secure Stripe checkout, dynamic menu filtering, and an advanced admin portal.
-- **Architecture overview:** Decoupled React frontend and React-based Admin panel communicating with an Express/Node.js API gateway, utilizing MongoDB for persistent storage, Redis for fast caching/caching states, Cloudinary for menu image hosting, and Stripe for payments.
-- **Benefits:** Seamless and reliable user experience, optimized response times via Redis, secure credential hashing, and zero-fuss media uploads.
+
+Tomato provides a fast, secure, and responsive food ordering experience with real-time cart management, Redis caching for improved performance, Stripe payment integration, and a dedicated admin panel for managing food items and orders.
 
 ---
 
 ## 🛠 Tech Stack
 
-### Frontend
-- React.js (v19)
-- Tailwind CSS
+**Frontend**
+- React.js
 - Vite
-- React Router DOM
-- React Scroll
-- React Toastify / Hot Toast
+- Tailwind CSS
 
-### Backend
+**Backend**
 - Node.js
 - Express.js
-- Redis Client
-- Multer & Cloudinary
-- Mongoose (MongoDB ODM)
-- Stripe SDK
 
-### Database & Caching
+**Database & Cache**
 - MongoDB
 - Redis
 
-### Authentication
-- JSON Web Token (JWT) & bcryptjs
-- Google OAuth (`@react-oauth/google` & `google-auth-library`)
+**Authentication**
+- JWT
+- Google OAuth
 
-### Deployment
+**Cloud & Payments**
+- Cloudinary
+- Stripe
+
+**Deployment**
+- Vercel (Frontend & Admin)
 - Render (Backend)
-- Vercel (Frontend & Admin Panel)
 
 ---
 
 ## ✨ Features
 
-- **User Authentication:** Dual login options using custom Email/Password authentication or Google One-Tap Sign-In.
-- **Interactive Cart Management:** Real-time quantity adjustments, price calculations, and persistent cart states.
-- **Stripe Payments Integration:** Fully integrated secure payment gateway processing for mock/live transactions.
-- **Redis Caching:** Integrated Redis layer caching database query operations to maximize application throughput and performance.
-- **Admin Dashboard:** Admin panel to add new food items with Cloudinary image storage integration, track orders, and update delivery statuses.
-- **Responsive UI:** Clean, modern, responsive interface optimized for desktop, tablet, and mobile screens.
+- 🔐 JWT & Google OAuth Authentication
+- 🍔 Food Browsing & Category Filters
+- 🛒 Shopping Cart Management
+- 💳 Secure Stripe Payments
+- ⚡ Redis Caching for Faster API Responses
+- 📦 Order Tracking
+- 🛠️ Admin Dashboard for Food & Order Management
+- 📱 Fully Responsive UI
 
 ---
-
 ## 📷 Sample Images
 
 ### Home Page (Hero Banner)
